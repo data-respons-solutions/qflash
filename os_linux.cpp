@@ -59,6 +59,7 @@ void qdl_msg_log(int msgtype,char *msg1,char * msg2)
 
 int qdl_log(char *msg,...)
 {
+	return 0;
 }
 
 static int config_uart(int fd, int ioflush)

@@ -39,7 +39,7 @@
 #include <errno.h>
 #include <pthread.h>
 #include <ctype.h>
-
+#include <sys/sysmacros.h>
 #include <linux/usbdevice_fs.h>
 #include <linux/usbdevice_fs.h>
 #include <linux/version.h>
@@ -564,7 +564,7 @@ int usb_check()
 	int re=0;
 	char* base="/sys/bus/usb/devices";
 	struct dirent *de;
-	char busname[64], devname[64];
+	char busname[256], devname[256];
 	int fd;
 	int writable;
 	int n;
@@ -574,12 +574,12 @@ int usb_check()
 	char buspath[128],devpath[128];
 	busdir = opendir(base);
 	if(busdir == 0) return 0;
-	while(de = readdir(busdir)) {
-		sprintf(busname, "%s/%s", base, de->d_name);
+	while((de = readdir(busdir))) {
+		snprintf(busname, sizeof(busname), "%s/%s", base, de->d_name);
 		devdir = opendir(busname);
 		if(devdir == 0) continue;
 		while((de = readdir(devdir)) ) {
-			 sprintf(devname, "%s/%s", busname, de->d_name);
+			 snprintf(devname, sizeof(devname), "%s/%s", busname, de->d_name);
 			  if(strstr(devname,"uevent")!=NULL)
 			  	{
 			  	 	writable = 1;

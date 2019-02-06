@@ -628,7 +628,7 @@ int handle_openmulti(uint32 size,unsigned char* data)
 
 /******pkt_write_multi_image*******/
 void pkt_write_multi_image(uint32 addr, unsigned char*data, uint16 size) {
-    unsigned char parameter[4] = {(unsigned char)(addr)&0xff, (unsigned char)(addr>>8)&0xff, (unsigned char)(addr>>16)&0xff, (unsigned char)(addr>>24)&0xff};
+    unsigned char parameter[4] = {(unsigned char)addr, (unsigned char)(addr>>8), (unsigned char)(addr>>16), (unsigned char)(addr>>24)};
     compose_packet(0x07, parameter, 4, data, size);
     compute_reply_crc();
 }
@@ -1248,13 +1248,13 @@ int SendResetPacket()
 	return 1;
 }
 
-int sahara_reset()
+void sahara_reset()
 {
 	unsigned char rx_buff[128];
 	unsigned char SendBuffer[8]={0x07,0x00,0x00,0x00,0x08,0x00,0x00,0x00};
 	qdl_flush_fifo(g_hCom, 1, 1,0);
 	if(WriteABuffer(g_hCom, SendBuffer,8 )!=8)
-		return 0;
+		return;
 	if(ReadSAHARABuffer(g_hCom, rx_buff, sizeof(rx_buff) > 0))
 	{
 		
@@ -1268,13 +1268,13 @@ int sahara_reset()
 		
 	}
 }
-int sahara_done()
+void sahara_done()
 {
 	unsigned char rx_buff[128];
 	unsigned char SendBuffer[8]={0x05,0x00,0x00,0x00,0x08,0x00,0x00,0x00};
 	qdl_flush_fifo(g_hCom, 1, 1,0);
 	if(WriteABuffer(g_hCom, SendBuffer,8 )!=8)
-		return 0;
+		return;
 	if(ReadSAHARABuffer(g_hCom, rx_buff, sizeof(rx_buff) > 0))
 	{
 		
@@ -1313,6 +1313,7 @@ int retrieve_soft_revision()
 			return 0;
 		}
 	}
+	return 1;
 }
 
 

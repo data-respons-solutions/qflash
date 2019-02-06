@@ -118,8 +118,8 @@ SAHARA_MODE_LAST,
 SAHARA_MODE_MAX = 0x7FFFFFFF
 } boot_sahara_mode;
 
-int sahara_done();
-int sahara_reset();
+void sahara_done();
+void sahara_reset();
 int kick_sahara_state_machine();
 int transfer_nrpg_or_enpgr_file();
 int send_sahara_hello_response_packet();

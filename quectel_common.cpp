@@ -30,7 +30,7 @@ int already_running(const char *filename)
         exit(1);
 	}
 
-	/* ÏÈ»ñÈ¡ÎÄ¼þËø */
+	/* ï¿½È»ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ */
 	if (lockfile(fd) == -1) {
         if (errno == EACCES || errno == EAGAIN) 
         {
@@ -41,7 +41,7 @@ int already_running(const char *filename)
         printf("can't lock %s: %m\n", filename);
         exit(1);
 	}
-	/* Ð´ÈëÔËÐÐÊµÀýµÄpid */
+	/* Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½pid */
 	ftruncate(fd, 0);
 	sprintf(buf, "%ld", (long)getpid());
 	write(fd, buf, strlen(buf) + 1);
@@ -62,8 +62,8 @@ int is_emergency_diag_port()
 		{
 			struct dirent* subent = NULL;
 			DIR *psubDir;
-			char subdir[255];
-			char dev[255];
+			char subdir[256];
+			char dev[256];
 			char idVendor[4 + 1] = {0};
 			char idProduct[4 + 1] = {0};
 			char number[10] = {0};
@@ -121,7 +121,7 @@ static int ttyusb_dev_detect(char** pp_diag_port, int interface)
 {
 	struct dirent* ent = NULL;
 	DIR* pDir;
-	char dir[255] = "/sys/bus/usb/devices";
+	char dir[256] = "/sys/bus/usb/devices";
 	pDir = opendir(dir);
 	int ret = 1;
 	if(pDir)
@@ -130,8 +130,8 @@ static int ttyusb_dev_detect(char** pp_diag_port, int interface)
 		{
 			struct dirent* subent = NULL;
 			DIR *psubDir;
-			char subdir[255];
-			char dev[255];
+			char subdir[256];
+			char dev[256];
 			char idVendor[4 + 1] = {0};
 			char idProduct[4 + 1] = {0};
 			char number[10] = {0};
@@ -266,7 +266,7 @@ int detect_adb()
 	int re = 0;
 	const char* base = "/sys/bus/usb/devices";
 	struct dirent *de;
-	char busname[64], devname[64];
+	char busname[256], devname[256];
 	int fd;
 	int writable;
 	int n;
@@ -278,15 +278,15 @@ int detect_adb()
 	busdir = opendir(base);
 	if(busdir == 0) 
 		return -1;
-	while(de = readdir(busdir))
+	while((de = readdir(busdir)))
 	{
-		sprintf(busname, "%s/%s", base, de->d_name);
+		snprintf(busname, sizeof(busname),"%s/%s", base, de->d_name);
 		devdir = opendir(busname);
 		if(devdir == 0) 
 			continue;
 		while((de = readdir(devdir)) )
 		{
-			sprintf(devname, "%s/%s", busname, de->d_name);
+			snprintf(devname, sizeof(devname), "%s/%s", busname, de->d_name);
 			if(strstr(devname,"uevent")!=NULL)
 			{
 				writable = 1;
@@ -680,9 +680,7 @@ transfer_statistics::transfer_statistics(const transfer_statistics&)
 	m_all_files_bytes = 0;
 	m_transfer_bytes = 0;
 }
-transfer_statistics& transfer_statistics::operator=(const transfer_statistics&)
-{
-}
+
 unsigned long get_file_size(const char* filename)
 {
 	unsigned long size;

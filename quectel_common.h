@@ -3,7 +3,6 @@
 
 #define LOCKFILE	"/var/run/QFlash.pid"
 
-
 enum usb_speed{
 	usb_highspeed,
 	usb_fullspeed,
