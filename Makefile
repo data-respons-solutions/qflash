@@ -9,9 +9,9 @@ NDK_OUT=out
 
 all:
 	rm -rf *.o
-	$(CC) -g -c -DUSE_FASTBOOT fastboot/protocol.c fastboot/engine.c fastboot/fastboot.c fastboot/usb_linux.c fastboot/util_linux.c
-	$(CXX) -g -c tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp
-	$(CXX) -g -c at_tok.cpp atchannel.cpp ril-daemon.cpp download.cpp file.cpp os_linux.cpp serialif.cpp quectel_log.cpp quectel_common.cpp quectel_crc.cpp
+	$(CC) $(CFLAGS) -g -c -DUSE_FASTBOOT fastboot/protocol.c fastboot/engine.c fastboot/fastboot.c fastboot/usb_linux.c fastboot/util_linux.c
+	$(CXX) $(CXXFLAGS) -g -c tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp
+	$(CXX) $(CXXFLAGS) -g -c at_tok.cpp atchannel.cpp ril-daemon.cpp download.cpp file.cpp os_linux.cpp serialif.cpp quectel_log.cpp quectel_common.cpp quectel_crc.cpp
 	$(CXX) $(LDFLAGS) *.o -lrt -lpthread -o QFlash
 android: clean
 	$(NDK_BUILD) V=0 NDK_OUT=$(NDK_OUT)  NDK_APPLICATION_MK=$(NDK_APPLICATION_MK) NDK_LIBS_OUT=$(NDK_LIBS_OUT) APP_BUILD_SCRIPT=$(APP_BUILD_SCRIPT) NDK_PROJECT_PATH=$(NDK_PROJECT_PATH) NDK_DEBUG=$(NDK_DEBUG) APP_ABI=$(APP_ABI)
