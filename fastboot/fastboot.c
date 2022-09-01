@@ -49,7 +49,7 @@ static const char *product = 0;
 static const char *cmdline = 0;
 static int wipe_data = 0;
 static unsigned short vendor_id = 0;
-int endian_flag;
+int endian_flag = 0;
 
 
 static unsigned base_addr = 0x10000000;

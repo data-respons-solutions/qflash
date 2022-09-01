@@ -15,7 +15,7 @@
 const char PORT_NAME_PREFIX[] = "/dev/ttyUSB";
 static char log_trace[MAX_TRACE_LENGTH];
 int g_default_port = 0;
-int endian_flag = 0; 
+extern int endian_flag;
 int dump = 0;
 
 static download_context s_QdlContext;
